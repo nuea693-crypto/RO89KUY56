@@ -1,152 +1,85 @@
 a=game:GetService("Players")
-
 b=game:GetService("RunService")
-
 c=game:GetService"ReplicatedStorage"
-
 d=game:GetService"UserInputService"
-
 e=game:GetService"TweenService"
-
 f=game:GetService"Debris"
-
 g=game:GetService"Workspace"
-
 h=game:GetService"ContextActionService"
-
 i=c:WaitForChild"Remotes"
-
 j=require(c.Modules.Core.Util)
-
 k=require(c.Modules.Game.UI.BuyPromptUI)
-
 l=require(c.Modules.Game.Emotes.EmotesUI)
-
 m=require(c.Modules.Game.Emotes.EmotesList)
-
 n=require(c.Modules.Core.UI)
-
 o=require(c.Modules.Core.Char)
-
 p=c:WaitForChild"Items"
-
 q=p:WaitForChild"melee"
-
 r=a.LocalPlayer
-
 s=r.Character or r.CharacterAdded:Wait()
-
 t=s:WaitForChild"Humanoid"
-
 u=s:WaitForChild"HumanoidRootPart"
-
 v=a.LocalPlayer
-
 local w={}
-
 x=workspace:WaitForChild"DroppedItems"
 
-
-
 y=g.CurrentCamera
-
 r:GetMouse()
-
 z=d.TouchEnabled and not d.KeyboardEnabled
 
-
-
 local A
-
-pcall(
-
-function()
-
-A=loadstring(game:HttpGet"https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")()
-
-end
-
-)
+pcall(function()
+    A=loadstring(game:HttpGet"https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")()
+end)
 
 local B
 if A then
-B=
-A:CreateWindow
-{
-Title="RO89 Hub |||",
-Icon="rbxassetid://100758136601163",
-Author="[] Tik Tok |@RO89 HUB ",
-Folder="Boss",
-Size=UDim2.fromOffset(650,400),
-Theme="Dark",
-Transparent=true,
-Resizable=true,
-KeyCode=Enum.KeyCode.L
-}
+    B=A:CreateWindow{
+        Title="RO89 Hub | PAIN💸 | 🔫 |",
+        Icon="rbxassetid://100758136601163",
+        Author="[🔫] Tik Tok |@ยังไม่บอกหรอก ",
+        Folder="Boss",
+        Size=UDim2.fromOffset(650,400),
+        Theme="Dark",
+        Transparent=true,
+        Resizable=true,
+        KeyCode=Enum.KeyCode.L
+    }
 
-B:EditOpenButton({
-    Title = "RO89 Hub |||",
-    Icon ="rbxassetid://100758136601163",
-    CornerRadius = UDim.new(0,16),
-    StrokeThickness = 2,
-    Color = ColorSequence.new(
-        Color3.fromHex("#FFFFFF"), 
-        Color3.fromHex("#000000")
-    ),
-    OnlyMobile = false,
-    Enabled = true,
-    Draggable = true,
-})
+    B:EditOpenButton({
+        Title = "RO89 Hub | PAIN💸 | 🔫 |",
+        Icon ="rbxassetid://100758136601163",
+        CornerRadius = UDim.new(0,16),
+        StrokeThickness = 2,
+        Color = ColorSequence.new(
+            Color3.fromHex("#FFFFFF"), 
+            Color3.fromHex("#000000")
+        ),
+        OnlyMobile = false,
+        Enabled = true,
+        Draggable = true,
+    })
 
-B:Tag({
-    Title = "PVP | Paid",
-    Icon = "github",
-    Color = Color3.fromHex("#ac30ff"),
-    Radius = 13,
-})
-
+    B:Tag({
+        Title = "PVP | Paid",
+        Icon = "github",
+        Color = Color3.fromHex("#ac30ff"),
+        Radius = 13,
+    })
 else
-
-B={
-
-Tab=function(C)
-
-return{
-
-Section=function()
-
-end,
-
-Toggle=function()
-
-end,
-
-Slider=function()
-
-end,
-
-Button=function()
-
-end,
-
-Input=function()
-
-return{}
-
-end,
-
-Divider=function()
-
-end
-
-}
-
-end
-
-}
-
-end
-
+    B={
+        Tab=function(C)
+            return{
+                Section=function() end,
+                Toggle=function() end,
+                Slider=function() end,
+                Button=function() end,
+                Input=function() return{} end,
+                Divider=function() end
+            }
+        end
+    }
+enda=game:GetService("Players")
 
 
 local C=B.ConfigManager
@@ -3578,7 +3511,7 @@ end
 
 r.CharacterAdded:Connect(function(aN)
     local aO = aN:WaitForChild("Humanoid")
-    local aP = aN:WaitForChild("HumanoidRootPart") --  RootPart 
+    local aP = aN:WaitForChild("HumanoidRootPart") -- à¹€à¸žà¸´à¹ˆà¸¡à¸šà¸£à¸£à¸—à¸±à¸”à¸™à¸µà¹‰à¹€à¸žà¸·à¹ˆà¸­à¸”à¸¶à¸‡ RootPart à¸¡à¸²à¹ƒà¸Šà¹‰
 
     if aa then
         aa:Disconnect()
@@ -3895,9 +3828,9 @@ loadESP()
 
 
 
-local aN=B:Tab{Title="",Icon="crosshair"}
+local aN=B:Tab{Title="à¹€à¸­à¹‡à¸¡à¸šà¸­à¸—",Icon="crosshair"}
 
-aN:Section{Title=""}
+aN:Section{Title="à¸›à¸·à¸™"}
 
 local aO=
 
@@ -4050,9 +3983,9 @@ end
 
 
 
-local aS=B:Tab{Title="",Icon="layers"}
+local aS=B:Tab{Title="à¹à¸•à¹ˆà¸‡à¸­à¸²à¸§à¸¸à¸˜",Icon="layers"}
 
-aS:Section{Title=""}
+aS:Section{Title="à¸¡à¹‡à¸­à¸”"}
 
 
 
@@ -4414,7 +4347,7 @@ A:Notify
 
 {
 
-Title=" Auto Modify",
+Title="âœ… Auto Modify",
 
 Duration=2
 
@@ -4676,9 +4609,9 @@ D:Register("AutoAttack_Enabled",aV)
 
 
 
-local aW=B:Tab{Title="",Icon="eye"}
+local aW=B:Tab{Title="à¸¡à¸­à¸‡",Icon="eye"}
 
-aW:Section{Title=""}
+aW:Section{Title="à¸”à¸¹"}
 
 local aX=
 
@@ -4732,7 +4665,7 @@ A:Notify
 
 {
 
-Title=" ESP Items Enabled",
+Title="âœ… ESP Items Enabled",
 
 Duration=3
 
@@ -4766,7 +4699,7 @@ A:Notify
 
 {
 
-Title=" ESP Items Disabled",
+Title="âŒ ESP Items Disabled",
 
 Duration=3
 
@@ -5014,9 +4947,9 @@ end
 
 
 
-local a1=B:Tab{Title="",Icon="user"}
+local a1=B:Tab{Title="à¸•à¸±à¸§à¸¥à¸°à¸„à¸£",Icon="user"}
 
-a1:Section{Title=""}
+a1:Section{Title="à¸•à¸±à¸§à¸¥à¸°à¸„à¸£"}
 
 local a2=
 
@@ -5136,7 +5069,7 @@ Title = "Jump Height",
         Default = 10
     },
     Callback = function(v)
-        JumpHeight = v --  2
+        JumpHeight = v -- à¸•à¸±à¸§à¹à¸›à¸£à¸™à¸µà¹‰à¸ˆà¸°à¸–à¸¹à¸à¹€à¸£à¸µà¸¢à¸à¹ƒà¸Šà¹‰à¹ƒà¸™à¸ªà¹ˆà¸§à¸™à¸—à¸µà¹ˆ 2
     end
 }
 
@@ -5248,7 +5181,7 @@ A:Notify
 
 {
 
-Title=" INF STAMINA",
+Title="âœ… INF STAMINA",
 
 Duration=3
 
@@ -5334,7 +5267,7 @@ A:Notify
 
 {
 
-Title=" Auto Sprint Disabled",
+Title="âŒ Auto Sprint Disabled",
 
 Duration=3
 
@@ -5422,7 +5355,7 @@ A:Notify
 
 {
 
-Title=" Anti Kill Disabled",
+Title="âŒ Anti Kill Disabled",
 
 Duration=3
 
@@ -5908,29 +5841,29 @@ end
 
 D:Register("SnapHeight",be)
 
--- (Quick Toggle) Snap Under Map
--- bd (Toggle )
+--  (Quick Toggle)  Snap Under Map 
+--  bd (Toggle ) 
 
--- Section UI
--- ( Window Wn Window)
+--  Section  UI 
+-- ( Window   Wn  Window)
 
-local topBarSection = a1:Section{Title = "Quick Control ( )"}
+local topBarSection = a1:Section{Title = "Quick Control ()"}
 
--- Toggle Quick Action Snap
+--  Toggle  Quick Action  Snap 
 topBarSection:Toggle{
-    Title = " : / ",
+    Title = ": /",
     Default = false,
     Callback = function(state)
-        -- / Toggle (bd)
-        -- Toggle
+        -- / Toggle  (bd) 
+        --  Toggle 
         if bd then
-            bd:Set(state) -- WindUI Set
+            bd:Set(state) --  WindUI  Set 
         end
         
-        -- 100%
+        --  100%  
         if not state then
             if u and Z then
-                -- (Z)
+                --  (Z) 
                 u.CFrame = CFrame.new(u.Position.X, Z + 3, u.Position.Z)
             end
             V = false
@@ -5940,9 +5873,9 @@ topBarSection:Toggle{
     end
 }
 
-local bf=B:Tab{Title="",Icon="person-standing"}
+local bf=B:Tab{Title="à¸œà¸¹à¹‰à¹€à¸¥à¹ˆà¸™",Icon="person-standing"}
 
-bf:Section{Title=""}
+bf:Section{Title="à¸œà¸¹à¹‰à¹€à¸¥à¹ˆà¸™"}
 
 local bg=Instance.new("Folder",g)
 
@@ -5976,7 +5909,7 @@ applyToAll()
 
 if A then
 
-A:Notify{Title=" Auto Finish Enabled",Description=" Auto Enabled",Duration=3}
+A:Notify{Title="âœ… Auto Finish Enabled",Description="âœ… Auto Enabled",Duration=3}
 
 end
 
@@ -5984,7 +5917,7 @@ else
 
 if A then
 
-A:Notify{Title=" Auto Disabled",Description=" Auto Disabled",Duration=3}
+A:Notify{Title="âŒ Auto Disabled",Description="âŒ Auto Disabled",Duration=3}
 
 end
 
@@ -6002,7 +5935,7 @@ bf:Divider()
 
 
 
-local bk=B:Tab{Title="",Icon="warehouse"}
+local bk=B:Tab{Title="à¸à¸²à¸£à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²",Icon="warehouse"}
 
 
 
@@ -6056,7 +5989,7 @@ end
 
 for bo,bp in ipairs(bn)do
 
-print(":",bp)
+print("à¸à¸³à¸¥à¸±à¸‡à¸§à¸²à¸£à¹Œà¸›à¹„à¸›à¹€à¸‹à¸´à¸£à¹Œà¸Ÿ:",bp)
 
 task.wait(0.5)
 
@@ -6262,7 +6195,7 @@ end
 
 if not bq or not br or not br.data then
 
-warn""
+warn"à¹„à¸¡à¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¸”à¸¶à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸‹à¸´à¸£à¹Œà¸Ÿà¹€à¸§à¸­à¸£à¹Œà¹„à¸”à¹‰à¹€à¸¥à¸¢à¸žà¸µà¹ˆ"
 
 return
 
@@ -6286,7 +6219,7 @@ end
 
 if#bs==0 then
 
-warn""
+warn"à¹„à¸¡à¹ˆà¸¡à¸µà¹€à¸‹à¸´à¸£à¹Œà¸Ÿà¹€à¸§à¸­à¸£à¹Œà¸§à¹ˆà¸²à¸‡à¹€à¸¥à¸¢à¸žà¸µà¹ˆà¸‚à¸“à¸°à¸™à¸µà¹‰"
 
 return
 
@@ -6320,7 +6253,7 @@ game.StarterGui:SetCore(
 
 Title="Server Hop",
 
-Text="...",
+Text="à¸à¸³à¸¥à¸±à¸‡à¸¢à¹‰à¸²à¸¢à¹„à¸›à¹€à¸‹à¸´à¸£à¹Œà¸Ÿà¹€à¸§à¸­à¸£à¹Œà¸„à¸™à¹€à¸¢à¸­à¸°...",
 
 Duration=3
 
@@ -7300,7 +7233,7 @@ end
 
 
 
-local BuyTab = B:Tab({Title = "", Icon = "house"})
+local BuyTab = B:Tab({Title = "à¸‹à¸·à¹‰à¸­", Icon = "house"})
 
 
 
@@ -7308,7 +7241,7 @@ BuyTab:Section(
 
     {
 
-        Title = ""
+        Title = "à¸‹à¸·à¹‰à¸­"
 
     }
 
@@ -7416,7 +7349,7 @@ D:Register("Skip animation",buu11)
 
 
 
-local VehicleTab = B:Tab({Title = "", Icon = "car"})
+local VehicleTab = B:Tab({Title = "à¸£à¸–", Icon = "car"})
 
 
 
@@ -7424,7 +7357,7 @@ VehicleTab:Section(
 
     {
 
-        Title = ""
+        Title = "à¸£à¸–"
 
     }
 
@@ -7505,34 +7438,38 @@ end
         end
 
     })
-
 -- ==========================================
---   PURE SILENT AIM HOOK (NO HITBOX REQUIRED)
---           Silent Aim                                      
+--  PURE SILENT AIM HOOK (NO HITBOX REQUIRED)
+--  Silent Aim 
 -- ==========================================
 
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
+--  ( )
 local function GetPredictedPosition(targetPart)
     local ping = 0.1
     pcall(function()
         ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue() / 1000
     end)
     local velocity = targetPart.AssemblyLinearVelocity
+    -- 
     return targetPart.Position + (velocity * (ping + 0.05))
 end
 
--- 1. Hook __index (Mouse.Hit / Mouse.Target)
+-- 1. Hook __index  (Mouse.Hit / Mouse.Target)
 local OldIndex
 OldIndex = hookmetamethod(game, "__index", newcclosure(function(self, key)
+    --  Silent Aim (F)  (I)[span_2](start_span)[span_2](end_span)
     if F and self == Mouse and I and I.Character then
         local targetPart = I.Character:FindFirstChild("Head") or I.Character:FindFirstChild("HumanoidRootPart")
         if targetPart then
             if key == "Hit" then
+                --  ()
                 return CFrame.new(GetPredictedPosition(targetPart))
             elseif key == "Target" then
+                -- 
                 return targetPart
             end
         end
@@ -7540,7 +7477,7 @@ OldIndex = hookmetamethod(game, "__index", newcclosure(function(self, key)
     return OldIndex(self, key)
 end))
 
--- 2. Hook __namecall Raycast
+-- 2. Hook __namecall  Raycast 
 local OldNamecall
 OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
     local method = getnamecallmethod()
@@ -7550,6 +7487,7 @@ OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
         local targetPart = I.Character:FindFirstChild("Head") or I.Character:FindFirstChild("HumanoidRootPart")
         
         if targetPart then
+            --  Raycast
             if method == "FindPartOnRayWithIgnoreList" or method == "FindPartOnRayWithWhitelist" or method == "FindPartOnRay" then
                 local origin = args[1].Origin
                 local predictedPos = GetPredictedPosition(targetPart)
@@ -7572,168 +7510,180 @@ OldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
     return OldNamecall(self, ...)
 end))
 
+-- 
 if B and typeof(B.Notify) == "function" then
     B:Notify({
-        Title = "Pure Silent Aim",
-        Desc = "Hook Loaded Successfully",
+        Title = " Pure Silent Aim",
+        Desc = " Hook  ( Hitbox)",
         Time = 4
     })
 end
-
 -- ==============================================================================
---   RO89 HUB: ADVANCED PING-ADJUSTED PREDICTION & SILENT AIM EXTENSION
+--  RO89 HUB: ADVANCED PING-ADJUSTED PREDICTION & SILENT AIM EXTENSION
 -- ==============================================================================
-
--- STREAMING_CHUNK:Initializing advanced ping tracking and prediction arrays...
+--  (RO89_6.txt) 
+--  
+-- ==============================================================================
+/* STREAMING_CHUNK:Initializing advanced ping tracking and prediction arrays... */
 local AdvancedPingHistory = {}
 local MaxPingHistorySamples = 15
-local PingSpikeThreshold = 0.25
-
-local function GetUltraPrecisePing()
-    local stats = game:GetService("Stats")
-    local success, pingVal = pcall(function()
-        return stats.Network.ServerStatsItem["Data Ping"]:GetValue()
-    end)
-    local pingSeconds = 0.1
-    if success and pingVal then
-        pingSeconds = pingVal / 1000
-    else
-        pcall(function()
-            local pingLabel = r.PlayerGui.NetworkStats.PingLabel
-            local num = tonumber(pingLabel.Text:match("%d+"))
-            if num then pingSeconds = num / 1000 end
-        end)
-    end
-    table.insert(AdvancedPingHistory, pingSeconds)
-    if #AdvancedPingHistory > MaxPingHistorySamples then
-        table.remove(AdvancedPingHistory, 1)
-    end
-    local totalPing = 0
-    for _, p in ipairs(AdvancedPingHistory) do
-        totalPing = totalPing + p
-    end
-    local smoothedPing = totalPing / #AdvancedPingHistory
-    if smoothedPing > PingSpikeThreshold then
-        smoothedPing = smoothedPing + 0.08
-    end
-    return smoothedPing
-end
-
--- STREAMING_CHUNK:Configuring advanced vector prediction algorithm...
-local function CalculateAdvancedPrediction(targetHead, targetRootPart)
-    if not targetHead or not targetRootPart then
-        return Vector3.zero
-    end
-    local currentPing = GetUltraPrecisePing()
-    local velocity = targetRootPart.AssemblyLinearVelocity or targetRootPart.Velocity or Vector3.zero
-    local gravityCompensation = Vector3.new(0, workspace.Gravity * currentPing * 0.18, 0)
-    local predictedPos = targetHead.Position + (velocity * (currentPing * 1.35)) + gravityCompensation
-    return predictedPos
-end
-
--- STREAMING_CHUNK:Overriding and hooking remote events for flawless silent hit...
-pcall(function()
-    if E and E.FireServer then
-        local oldFireServer
-        oldFireServer = hookfunction(E.FireServer, function(remoteObj, ...)
-            if remoteObj ~= E then
-                return oldFireServer(remoteObj, ...)
-            end
-            local args = {...}
-            if F and (args[2] == "shoot_gun" or args[1] == "shoot_gun") and I then
-                local targetHead = I.Character and I.Character:FindFirstChild("Head")
-                local targetRoot = I.Character and I.Character:FindFirstChild("HumanoidRootPart")
-                local localHead = r.Character and r.Character:FindFirstChild("Head")
-                if targetHead and targetRoot and localHead then
-                    local preciseHitPosition = CalculateAdvancedPrediction(targetHead, targetRoot)
-                    local gunOrigin = localHead.Position
-                    if typeof(args[4]) == "CFrame" then
-                        args[4] = CFrame.new(gunOrigin, preciseHitPosition)
-                    elseif typeof(args[3]) == "CFrame" then
-                        args[3] = CFrame.new(gunOrigin, preciseHitPosition)
-                    end
-                end
-            end
-            return oldFireServer(remoteObj, unpack(args))
-        end)
-    end
+local PingSpikeThreshold = 0.25 -- 
+local function GetUltraPrecisePing()
+local stats = game:GetService("Stats")
+local success, pingVal = pcall(function()
+return stats.Network.ServerStatsItem["Data Ping"]:GetValue()
 end)
-
--- STREAMING_CHUNK:Displaying success notification for advanced aim extension...
+local pingSeconds = 0.1
+if success and pingVal then
+pingSeconds = pingVal / 1000
+else
+--  NetworkStats  PlayerGui 
+pcall(function()
+local pingLabel = r.PlayerGui.NetworkStats.PingLabel
+local num = tonumber(pingLabel.Text:match("%d+"))
+if num then pingSeconds = num / 1000 end
+end)
+end
+table.insert(AdvancedPingHistory, pingSeconds)
+if #AdvancedPingHistory > MaxPingHistorySamples then
+table.remove(AdvancedPingHistory, 1)
+end
+local totalPing = 0
+for _, p in ipairs(AdvancedPingHistory) do
+totalPing = totalPing + p
+end
+local smoothedPing = totalPing / #AdvancedPingHistory
+if smoothedPing > PingSpikeThreshold then
+smoothedPing = smoothedPing + 0.08 -- 
+end
+return smoothedPing
+end
+/* STREAMING_CHUNK:Configuring advanced vector prediction algorithm... */
+local function CalculateAdvancedPrediction(targetHead, targetRootPart)
+if not targetHead or not targetRootPart then
+return Vector3.zero
+end
+local currentPing = GetUltraPrecisePing()
+local velocity = targetRootPart.AssemblyLinearVelocity or targetRootPart.Velocity or Vector3.zero
+--  (Bullet Drop Compensation)
+local gravityCompensation = Vector3.new(0, workspace.Gravity * currentPing * 0.18, 0)
+--  Vector3 
+local predictedPos = targetHead.Position + (velocity * (currentPing * 1.35)) + gravityCompensation
+return predictedPos
+end
+/* STREAMING_CHUNK:Overriding and hooking remote events for flawless silent hit... */
+pcall(function()
+if E and E.FireServer then
+local oldFireServer
+oldFireServer = hookfunction(E.FireServer, function(remoteObj, ...)
+if remoteObj ~= E then
+return oldFireServer(remoteObj, ...)
+end
+local args = {...}
+-- 
+if F and (args[2] == "shoot_gun" or args[1] == "shoot_gun") and I then
+local targetHead = I.Character and I.Character:FindFirstChild("Head")
+local targetRoot = I.Character and I.Character:FindFirstChild("HumanoidRootPart")
+local localHead = r.Character and r.Character:FindFirstChild("Head")
+if targetHead and targetRoot and localHead then
+local preciseHitPosition = CalculateAdvancedPrediction(targetHead, targetRoot)
+local gunOrigin = localHead.Position
+-- 
+if typeof(args[4]) == "CFrame" then
+args[4] = CFrame.new(gunOrigin, preciseHitPosition)
+elseif typeof(args[3]) == "CFrame" then
+args[3] = CFrame.new(gunOrigin, preciseHitPosition)
+end
+end
+end
+return oldFireServer(remoteObj, unpack(args))
+end)
+end
+end)
+/* STREAMING_CHUNK:Displaying success notification for advanced aim extension... */
 print("[RO89 Hub] Advanced Ping-Adjusted Silent Aim successfully appended!")
-if B and typeof(B.Notify) == "function" then
-    B:Notify({
-        Title = "Ultimate Silent Aim",
-        Desc = "Appended successfully",
-        Time = 4
-    })
+if B and typeof(B.Notify) == "function" then
+B:Notify({
+Title = " Ultimate Silent Aim",
+Desc = "",
+Time = 4
+})
 end
 
 -- ==============================================================================
---    RO89 HUB: ANTI-UNDERGROUND TARGET ADJUSTER & HEAD NORMALIZER
+--  RO89 HUB: ANTI-UNDERGROUND TARGET ADJUSTER & HEAD NORMALIZER
 -- ==============================================================================
-
--- STREAMING_CHUNK:Initializing underground check and position normalization...
+--  (RO89_6.txt) 
+--   Silent Aim /
+-- ==============================================================================
+/* STREAMING_CHUNK:Initializing underground check and position normalization... */
 local Workspace = game:GetService("Workspace")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
+--  ()
 local GroundLevelTolerance = 3.5
-
-local function GetNormalizedTargetPosition(targetHead, targetRootPart)
-    if not targetHead or not targetRootPart then
-        return Vector3.zero
-    end
-    local originalHeadPos = targetHead.Position
-    local originalRootPos = targetRootPart.Position
-    local raycastParams = RaycastParams.new()
-    raycastParams.FilterType = Enum.RaycastFilterType.Exclude
-    if targetHead.Parent then
-        raycastParams.FilterDescendantsInstances = {targetHead.Parent}
-    end
-    local groundCheckRay = Workspace:Raycast(originalHeadPos + Vector3.new(0, 5, 0), Vector3.new(0, -50, 0), raycastParams)
-    local adjustedPosition = originalHeadPos
-
-    if groundCheckRay then
-        local groundY = groundCheckRay.Position.Y
-        if originalHeadPos.Y < (groundY + GroundLevelTolerance) then
-            adjustedPosition = Vector3.new(originalHeadPos.X, groundY + 2.5, originalHeadPos.Z)
-        end
-    else
-        if originalHeadPos.Y < -5 then
-            adjustedPosition = Vector3.new(originalHeadPos.X, originalRootPos.Y + 3.0, originalHeadPos.Z)
-        end
-    end
-    return adjustedPosition
+local function GetNormalizedTargetPosition(targetHead, targetRootPart)
+if not targetHead or not targetRootPart then
+return Vector3.zero
 end
-
--- STREAMING_CHUNK:Integrating normalizer into Silent Aim prediction hooks...
+local originalHeadPos = targetHead.Position
+local originalRootPos = targetRootPart.Position
+--  ( Y Position  RootPart  Head)
+--  Y >= 0  raycast 
+local raycastParams = RaycastParams.new()
+raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+if targetHead.Parent then
+raycastParams.FilterDescendantsInstances = {targetHead.Parent}
+end
+--  Raycast  
+local groundCheckRay = Workspace:Raycast(originalHeadPos + Vector3.new(0, 5, 0), Vector3.new(0, -50, 0), raycastParams)
+local adjustedPosition = originalHeadPos
+if groundCheckRay then
+local groundY = groundCheckRay.Position.Y
+--  
+if originalHeadPos.Y < (groundY + GroundLevelTolerance) then
+--   Silent Aim 
+adjustedPosition = Vector3.new(originalHeadPos.X, groundY + 2.5, originalHeadPos.Z)
+end
+else
+--  0  
+if originalHeadPos.Y < -5 then
+adjustedPosition = Vector3.new(originalHeadPos.X, originalRootPos.Y + 3.0, originalHeadPos.Z)
+end
+end
+return adjustedPosition
+end
+/* STREAMING_CHUNK:Integrating normalizer into Silent Aim prediction hooks... */
 pcall(function()
-    getgenv().GetCorrectedAimPosition = function(targetHead, targetRootPart)
-        if not targetHead or not targetRootPart then return Vector3.zero end
-        local correctedPos = GetNormalizedTargetPosition(targetHead, targetRootPart)
-        local velocity = targetRootPart.AssemblyLinearVelocity or targetRootPart.Velocity or Vector3.zero
-        local ping = 0.1
-        pcall(function()
-            ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue() / 1000
-        end)
-        return correctedPos + (velocity * (ping + 0.05))
-    end
+--  
+getgenv().GetCorrectedAimPosition = function(targetHead, targetRootPart)
+if not targetHead or not targetRootPart then return Vector3.zero end
+-- 
+local correctedPos = GetNormalizedTargetPosition(targetHead, targetRootPart)
+-- 
+local velocity = targetRootPart.AssemblyLinearVelocity or targetRootPart.Velocity or Vector3.zero
+local ping = 0.1
+pcall(function()
+ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue() / 1000
 end)
-
--- STREAMING_CHUNK:Displaying success notification for underground fix...
+-- 
+return correctedPos + (velocity * (ping + 0.05))
+end
+end)
+/* STREAMING_CHUNK:Displaying success notification for underground fix... */
 print("[RO89 Hub] Anti-Underground Head Normalizer successfully loaded!")
-pcall(function()
-    if B and typeof(B.Notify) == "function" then
-        B:Notify({
-            Title = "Anti-Underground Fix",
-            Desc = "Loaded successfully",
-            Time = 4
-        })
-    end
+pcall(function()
+if B and typeof(B.Notify) == "function" then
+B:Notify({
+Title = " Anti-Underground Fix",
+Desc = " Silent Aim !",
+Time = 4
+})
+end
 end)
-
 -- ==========================================
 --   OPTIMIZATION ADD-ON (ANTI-LAG SCRIPT)
+--   ()
 -- ==========================================
 
 task.spawn(function()
@@ -7741,11 +7691,13 @@ task.spawn(function()
     local Players = game:GetService("Players")
     local LocalPlayer = Players.LocalPlayer
     
+    -- 1.  ESP 
     pcall(function()
+        --  30   Memory Leak 
         while task.wait(30) do
             if gcinfo and type(gcinfo) == "function" then
                 local mem = gcinfo()
-                if mem > 800 then
+                if mem > 800 then --  
                     collectgarbage("collect")
                 end
             end
@@ -7753,16 +7705,22 @@ task.spawn(function()
     end)
 end)
 
+-- 2. 
 task.spawn(function()
     local RunService = game:GetService("RunService")
+    
+    --  Heartbeat 
     local LastTick = 0
     RunService.Heartbeat:Connect(function()
         local CurrentTime = tick()
-        if CurrentTime - LastTick >= 0.05 then
+        if CurrentTime - LastTick >= 0.05 then --  0.05  
             LastTick = CurrentTime
+            
             pcall(function()
+                -- 
                 local Character = game.Players.LocalPlayer.Character
                 if Character and Character:FindFirstChild("HumanoidRootPart") then
+                    -- 
                 end
             end)
         end
