@@ -1,85 +1,152 @@
 a=game:GetService("Players")
+
 b=game:GetService("RunService")
+
 c=game:GetService"ReplicatedStorage"
+
 d=game:GetService"UserInputService"
+
 e=game:GetService"TweenService"
+
 f=game:GetService"Debris"
+
 g=game:GetService"Workspace"
+
 h=game:GetService"ContextActionService"
+
 i=c:WaitForChild"Remotes"
+
 j=require(c.Modules.Core.Util)
+
 k=require(c.Modules.Game.UI.BuyPromptUI)
+
 l=require(c.Modules.Game.Emotes.EmotesUI)
+
 m=require(c.Modules.Game.Emotes.EmotesList)
+
 n=require(c.Modules.Core.UI)
+
 o=require(c.Modules.Core.Char)
+
 p=c:WaitForChild"Items"
+
 q=p:WaitForChild"melee"
+
 r=a.LocalPlayer
+
 s=r.Character or r.CharacterAdded:Wait()
+
 t=s:WaitForChild"Humanoid"
+
 u=s:WaitForChild"HumanoidRootPart"
+
 v=a.LocalPlayer
+
 local w={}
+
 x=workspace:WaitForChild"DroppedItems"
 
+
+
 y=g.CurrentCamera
+
 r:GetMouse()
+
 z=d.TouchEnabled and not d.KeyboardEnabled
 
+
+
 local A
-pcall(function()
-    A=loadstring(game:HttpGet"https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")()
-end)
+
+pcall(
+
+function()
+
+A=loadstring(game:HttpGet"https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")()
+
+end
+
+)
 
 local B
 if A then
-    B=A:CreateWindow{
-        Title="RO89 Hub | PAIN💸 | 🔫 |",
-        Icon="rbxassetid://100758136601163",
-        Author="[🔫] Tik Tok |@ยังไม่บอกหรอก ",
-        Folder="Boss",
-        Size=UDim2.fromOffset(650,400),
-        Theme="Dark",
-        Transparent=true,
-        Resizable=true,
-        KeyCode=Enum.KeyCode.L
-    }
+B=
+A:CreateWindow
+{
+Title="RO89 Hub |ฟรีดีมั้ย|🔫|",
+Icon="rbxassetid://100758136601163",
+Author="[🔫] Tik Tok |@RO89 HUB ",
+Folder="Boss",
+Size=UDim2.fromOffset(650,400),
+Theme="Dark",
+Transparent=true,
+Resizable=true,
+KeyCode=Enum.KeyCode.L
+}
 
-    B:EditOpenButton({
-        Title = "RO89 Hub | PAIN💸 | 🔫 |",
-        Icon ="rbxassetid://100758136601163",
-        CornerRadius = UDim.new(0,16),
-        StrokeThickness = 2,
-        Color = ColorSequence.new(
-            Color3.fromHex("#FFFFFF"), 
-            Color3.fromHex("#000000")
-        ),
-        OnlyMobile = false,
-        Enabled = true,
-        Draggable = true,
-    })
+B:EditOpenButton({
+    Title = "RO89 Hub |”«|",
+    Icon ="rbxassetid://100758136601163",
+    CornerRadius = UDim.new(0,16),
+    StrokeThickness = 2,
+    Color = ColorSequence.new(
+        Color3.fromHex("#FFFFFF"), 
+        Color3.fromHex("#000000")
+    ),
+    OnlyMobile = false,
+    Enabled = true,
+    Draggable = true,
+})
 
-    B:Tag({
-        Title = "PVP | Paid",
-        Icon = "github",
-        Color = Color3.fromHex("#ac30ff"),
-        Radius = 13,
-    })
+B:Tag({
+    Title = "PVP | Paid",
+    Icon = "github",
+    Color = Color3.fromHex("#ac30ff"),
+    Radius = 13,
+})
+
 else
-    B={
-        Tab=function(C)
-            return{
-                Section=function() end,
-                Toggle=function() end,
-                Slider=function() end,
-                Button=function() end,
-                Input=function() return{} end,
-                Divider=function() end
-            }
-        end
-    }
-enda=game:GetService("Players")
+
+B={
+
+Tab=function(C)
+
+return{
+
+Section=function()
+
+end,
+
+Toggle=function()
+
+end,
+
+Slider=function()
+
+end,
+
+Button=function()
+
+end,
+
+Input=function()
+
+return{}
+
+end,
+
+Divider=function()
+
+end
+
+}
+
+end
+
+}
+
+end
+
 
 
 local C=B.ConfigManager
@@ -3511,7 +3578,7 @@ end
 
 r.CharacterAdded:Connect(function(aN)
     local aO = aN:WaitForChild("Humanoid")
-    local aP = aN:WaitForChild("HumanoidRootPart") -- à¹€à¸žà¸´à¹ˆà¸¡à¸šà¸£à¸£à¸—à¸±à¸”à¸™à¸µà¹‰à¹€à¸žà¸·à¹ˆà¸­à¸”à¸¶à¸‡ RootPart à¸¡à¸²à¹ƒà¸Šà¹‰
+    local aP = aN:WaitForChild("HumanoidRootPart") -- เพิ่มบรรทัดนี้เพื่อดึง RootPart มาใช้
 
     if aa then
         aa:Disconnect()
@@ -3828,9 +3895,9 @@ loadESP()
 
 
 
-local aN=B:Tab{Title="à¹€à¸­à¹‡à¸¡à¸šà¸­à¸—",Icon="crosshair"}
+local aN=B:Tab{Title="เอ็มบอท",Icon="crosshair"}
 
-aN:Section{Title="à¸›à¸·à¸™"}
+aN:Section{Title="ปืน"}
 
 local aO=
 
@@ -3983,9 +4050,9 @@ end
 
 
 
-local aS=B:Tab{Title="à¹à¸•à¹ˆà¸‡à¸­à¸²à¸§à¸¸à¸˜",Icon="layers"}
+local aS=B:Tab{Title="แต่งอาวุธ",Icon="layers"}
 
-aS:Section{Title="à¸¡à¹‡à¸­à¸”"}
+aS:Section{Title="ม็อด"}
 
 
 
@@ -4609,9 +4676,9 @@ D:Register("AutoAttack_Enabled",aV)
 
 
 
-local aW=B:Tab{Title="à¸¡à¸­à¸‡",Icon="eye"}
+local aW=B:Tab{Title="มอง",Icon="eye"}
 
-aW:Section{Title="à¸”à¸¹"}
+aW:Section{Title="ดู"}
 
 local aX=
 
@@ -4947,9 +5014,9 @@ end
 
 
 
-local a1=B:Tab{Title="à¸•à¸±à¸§à¸¥à¸°à¸„à¸£",Icon="user"}
+local a1=B:Tab{Title="ตัวละคร",Icon="user"}
 
-a1:Section{Title="à¸•à¸±à¸§à¸¥à¸°à¸„à¸£"}
+a1:Section{Title="ตัวละคร"}
 
 local a2=
 
@@ -5069,7 +5136,7 @@ Title = "Jump Height",
         Default = 10
     },
     Callback = function(v)
-        JumpHeight = v -- à¸•à¸±à¸§à¹à¸›à¸£à¸™à¸µà¹‰à¸ˆà¸°à¸–à¸¹à¸à¹€à¸£à¸µà¸¢à¸à¹ƒà¸Šà¹‰à¹ƒà¸™à¸ªà¹ˆà¸§à¸™à¸—à¸µà¹ˆ 2
+        JumpHeight = v -- ตัวแปรนี้จะถูกเรียกใช้ในส่วนที่2
     end
 }
 
@@ -5873,9 +5940,9 @@ topBarSection:Toggle{
     end
 }
 
-local bf=B:Tab{Title="à¸œà¸¹à¹‰à¹€à¸¥à¹ˆà¸™",Icon="person-standing"}
+local bf=B:Tab{Title="ผู้เล่น",Icon="person-standing"}
 
-bf:Section{Title="à¸œà¸¹à¹‰à¹€à¸¥à¹ˆà¸™"}
+bf:Section{Title="ผู้เล่น"}
 
 local bg=Instance.new("Folder",g)
 
@@ -5909,7 +5976,7 @@ applyToAll()
 
 if A then
 
-A:Notify{Title="âœ… Auto Finish Enabled",Description="âœ… Auto Enabled",Duration=3}
+A:Notify{Title=✅ Auto Finish Enabled",Description="✅ Auto Enabled",Duration=3}
 
 end
 
@@ -5917,7 +5984,7 @@ else
 
 if A then
 
-A:Notify{Title="âŒ Auto Disabled",Description="âŒ Auto Disabled",Duration=3}
+A:Notify{Title="❌ Auto Disabled",Description="❌ Auto Disabled",Duration=3}
 
 end
 
@@ -5935,7 +6002,7 @@ bf:Divider()
 
 
 
-local bk=B:Tab{Title="à¸à¸²à¸£à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸²",Icon="warehouse"}
+local bk=B:Tab{Title="การตั้งค่า",Icon="warehouse"}
 
 
 
@@ -5989,7 +6056,7 @@ end
 
 for bo,bp in ipairs(bn)do
 
-print("à¸à¸³à¸¥à¸±à¸‡à¸§à¸²à¸£à¹Œà¸›à¹„à¸›à¹€à¸‹à¸´à¸£à¹Œà¸Ÿ:",bp)
+print("กําลังวาร์ปไปเซิร์ฟ:",bp)
 
 task.wait(0.5)
 
@@ -6195,7 +6262,7 @@ end
 
 if not bq or not br or not br.data then
 
-warn"à¹„à¸¡à¹ˆà¸ªà¸²à¸¡à¸²à¸£à¸–à¸”à¸¶à¸‡à¸‚à¹‰à¸­à¸¡à¸¹à¸¥à¹€à¸‹à¸´à¸£à¹Œà¸Ÿà¹€à¸§à¸­à¸£à¹Œà¹„à¸”à¹‰à¹€à¸¥à¸¢à¸žà¸µà¹ˆ"
+warn"ไม่สามารดึงข้อมูลเซิร์ฟเวอร์ได้เยยครับ"
 
 return
 
@@ -6219,7 +6286,7 @@ end
 
 if#bs==0 then
 
-warn"à¹„à¸¡à¹ˆà¸¡à¸µà¹€à¸‹à¸´à¸£à¹Œà¸Ÿà¹€à¸§à¸­à¸£à¹Œà¸§à¹ˆà¸²à¸‡à¹€à¸¥à¸¢à¸žà¸µà¹ˆà¸‚à¸“à¸°à¸™à¸µà¹‰"
+warn"ไม่มีเซิร์ฟเวอร์ที่ว่างเลยตอนนี้"
 
 return
 
@@ -6253,7 +6320,7 @@ game.StarterGui:SetCore(
 
 Title="Server Hop",
 
-Text="à¸à¸³à¸¥à¸±à¸‡à¸¢à¹‰à¸²à¸¢à¹„à¸›à¹€à¸‹à¸´à¸£à¹Œà¸Ÿà¹€à¸§à¸­à¸£à¹Œà¸„à¸™à¹€à¸¢à¸­à¸°...",
+Text="กําลังย้ายไปเซิร์ฟเวอร์คนเยอะ...",
 
 Duration=3
 
@@ -7233,7 +7300,7 @@ end
 
 
 
-local BuyTab = B:Tab({Title = "à¸‹à¸·à¹‰à¸­", Icon = "house"})
+local BuyTab = B:Tab({Title = "ซื้อ", Icon = "house"})
 
 
 
@@ -7241,7 +7308,7 @@ BuyTab:Section(
 
     {
 
-        Title = "à¸‹à¸·à¹‰à¸­"
+        Title = "ซื้อ"
 
     }
 
@@ -7349,7 +7416,7 @@ D:Register("Skip animation",buu11)
 
 
 
-local VehicleTab = B:Tab({Title = "à¸£à¸–", Icon = "car"})
+local VehicleTab = B:Tab({Title = "รถ",icon="car"})
 
 
 
@@ -7357,7 +7424,7 @@ VehicleTab:Section(
 
     {
 
-        Title = "à¸£à¸–"
+        Title = "รถ"
 
     }
 
