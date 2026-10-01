@@ -73,7 +73,7 @@ if A then
 B=
 A:CreateWindow
 {
-Title="| RO89 Hub |PAIN💸|🔫|",
+Title="RO89 Hub | PAIN💸 | 🔫 |",
 Icon="rbxassetid://100758136601163",
 Author="[🔫] Tik Tok |@ยังไม่บอกหรอก ",
 Folder="Boss",
@@ -85,7 +85,7 @@ KeyCode=Enum.KeyCode.L
 }
 
 B:EditOpenButton({
-    Title = "| RO89 Hub |PAIN💸|🔫|",
+    Title = "RO89 Hub | PAIN💸 | 🔫 |",
     Icon ="rbxassetid://100758136601163",
     CornerRadius = UDim.new(0,16),
     StrokeThickness = 2,
@@ -173,142 +173,6 @@ local ActiveConnections = {}
 local PingHistory = {}
 local MaxHistory = 10
 
--- ฟังก์ชันคำนวณเวลาและตำแหน่งของผู้เล่นเพื่อทำนายการเคลื่อนที่
-local function calculateVelocity(player)
-    local history = velocityHistory[player]
-    if not history or #history < 2 then
-        return Vector3.new()
-    end
-
-    local totalVelocity = Vector3.new()
-    local validFrames = 0
-
-    -- วิเคราะห์เวลาและตำแหน่งเพื่อคำนวณความเร็วเฉลี่ย
-    for i = 2, #history do
-        local deltaTime = history[i].time - history[i-1].time
-        if deltaTime > 0 then
-            local displacement = (history[i].position - history[i-1].position)
-            totalVelocity = totalVelocity + (displacement / deltaTime)
-            validFrames = validFrames + 1
-        end
-    end
-
-    if validFrames == 0 then
-        return Vector3.new()
-    end
-
-    local averageVelocity = totalVelocity / validFrames
-
-    -- ปรับความเร็วให้เหมาะสมกับการยิง (ค่า 10 คือปัจจัยปรับ)
-    if averageVelocity.Magnitude < 10 then
-        return averageVelocity
-    end
-
-    -- สำหรับการยิงทะลุกำแพง (Wall Bang) ให้คำนวณความเร็วให้เหมาะสม
-    if isWallBangEnabled() then
-        return Vector3.new(averageVelocity.X * 1.15, averageVelocity.Y, averageVelocity.Z * 1.15)
-    end
-
-    return averageVelocity
-end
-
--- ฟังก์ชันทำนายตำแหน่งเป้าหมายในอนาคต
-local function predictPosition(targetPart, targetHRP)
-    if not targetPart or not targetHRP then
-        return Vector3.zero
-    end
-
-    local player = game.Players:GetPlayerFromCharacter(targetPart.Parent)
-    if not player then
-        return targetPart.Position
-    end
-
-    local velocity = calculateVelocity(player) or Vector3.new()
-    local ping = GetExactPing() -- ใช้ฟังก์ชันคำนวณ Ping ที่แม่นยำ
-
-    if ping < 0 then
-        ping = 0.1
-    end
-
-    -- คำนวณตำแหน่งทำนายโดยใช้ความเร็วและเวลา Ping
-    return targetPart.Position + (velocity * ping * predictionAccuracy)
-end
-
--- ฟังก์ชันค้นหาเป้าหมายที่ดีที่สุดใน FOV
-local function getBestSilentAimTarget()
-    local bestTarget = nil
-    local minDistance = fovRadius or 120
-    local viewportCenter = Vector2.new(camera.ViewportSize.X / 2, camera.ViewportSize.Y / 2)
-    local localHead = localPlayer.Character and localPlayer.Character:FindFirstChild("Head")
-
-    for _, player in ipairs(game.Players:GetPlayers()) do
-        if player ~= localPlayer and player.Character then
-            local character = player.Character
-            local humanoid = character:FindFirstChildOfClass("Humanoid")
-            local head = character:FindFirstChild("Head")
-            local hrp = character:FindFirstChild("HumanoidRootPart")
-
-            if humanoid and humanoid.Health > 0 and head and hrp and not isPlayerExcluded(player.Name) then
-                local aimPart = (selectedAimPart == "HumanoidRootPart") and hrp or head
-                local screenPos, onScreen = camera:WorldToViewportPoint(aimPart.Position)
-
-                if onScreen then
-                    local distFromCenter = (Vector2.new(screenPos.X, screenPos.Y) - viewportCenter).Magnitude
-
-                    if distFromCenter <= minDistance then
-                        local isBlocked = false
-                        if localHead then
-                            isBlocked = isBehindWall(localHead.Position, aimPart.Position)
-                        end
-
-                        -- ถ้าเปิด Wall Bang ให้ยิงทะลุได้แม้มีกำแพง
-                        if not isBlocked or isWallBangEnabled() then
-                            minDistance = distFromCenter
-                            bestTarget = player
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    return bestTarget
-end
-
--- ฟังก์ชัน Hook การยิงเพื่อให้ยิงทะลุได้จริง
-local originalFireServer
-pcall(function()
-    if weaponTool and weaponTool.FireServer then
-        originalFireServer = hookfunction(weaponTool.FireServer, function(...)
-            local args = {...}
-            
-            if silentAimEnabled and args[2] == "shoot_gun" and currentTarget then
-                local target = currentTarget.Character and currentTarget.Character:FindFirstChild("Head")
-                local localHead = localPlayer.Character and localPlayer.Character:FindFirstChild("Head")
-                
-                if target and localHead then
-                    -- ตรวจสอบว่ามีกำแพงบังหรือไม่
-                    local isBlocked = isBehindWall(localHead.Position, target.Position)
-                    
-                    if isBlocked and not isWallBangEnabled() then
-                        -- ถ้าไม่ได้เปิด Wall Bang ให้ยิงที่กลางกำแพง
-                        args[4] = CFrame.new(math.huge, math.huge, math.huge)
-                    end
-                end
-            end
-            
-            return originalFireServer(...)
-        end)
-    end
-end)
-
--- เพิ่มฟังก์ชันคำนวณ Ping ที่แม่นยำ
-local function GetExactPing()
-    local ping = 0.1
-    pcall(function()
-        local stats = game:GetService("Stats")
-        ping = stats.Network.ServerStatsItem["Data Ping"]:GetValue() / 1000
-        
 local G=false
 
 local H=120
@@ -1133,66 +997,7 @@ return aF
 end
 
 local aH=aG.PrimaryPart.Position
--- ฟังก์ชัน Anti Lock V2: ส่ายตัวและลอยตัวแบบสุ่ม
-local function antiLockV2()
-    if not ai().Sky or not r.Character or not r.Character:FindFirstChild("HumanoidRootPart") then
-        return
-    end
 
-    local rootPart = r.Character.HumanoidRootPart
-    local currentVelocity = rootPart.Velocity
-    local tickTime = tick()
-
-    -- สุ่มค่าสำหรับการส่าย (Wiggle)
-    local wiggleX = math.sin(tickTime * 50) * 2
-    local wiggleZ = math.cos(tickTime * 50) * 2
-    local wiggleY = math.sin(tickTime * 30) * 5
-
-    -- ค่าความเร็วลอยตัวสูงสุด (ส่ายแรงขึ้น)
-    local flySpeed = 600
-
-    -- คำนวณความเร็วใหม่โดยผสมผสานการส่ายและการลอยตัว
-    local newVelocity = Vector3.new(
-        currentVelocity.X + wiggleX + math.random(-2, 2),
-        currentVelocity.Y + wiggleY,
-        currentVelocity.Z + wiggleZ + math.random(-2, 2)
-    )
-
-    -- ถ้าต้องการลอยตัวอย่างเดียว (หรือเปิดโหมดลอย)
-    if ai().SkyAmount > 1000 then
-        newVelocity = Vector3.new(
-            math.random(-10, 10),
-            math.random(280, 480), -- ลอยตัวสูงแบบสุ่ม
-            math.random(-10, 10)
-        )
-    end
-
-    rootPart.Velocity = newVelocity
-
-    -- รีเซ็ตความเร็วเมื่อผ่านไป 1 วินาที (เพื่อให้ตัวละครไม่เด้งไปไกลเกินไป)
-    task.wait(0.1)
-    rootPart.Velocity = currentVelocity
-end
-
--- ฟังก์ชัน Hook สำหรับการเปลี่ยนค่า ai().Sky ตาม Toggle
-local originalAntiLockCallback = a7.Callback
-a7.Callback = function(enabled)
-    ai().Sky = enabled
-    if enabled then
-        ai().SkyAmount = 1500 -- ตั้งค่าลอยตัวสูงสุด
-    else
-        ai().SkyAmount = 0 -- ปิดลอยตัว
-    end
-    -- เรียกฟังก์ชันเดิม
-    if originalAntiLockCallback then
-        originalAntiLockCallback(enabled)
-    end
-end
-
--- เชื่อมต่อฟังก์ชัน Anti Lock V2 กับ Heartbeat
-b.Heartbeat:Connect(antiLockV2)
-
-print("[RO89 Hub] Anti Lock V2 Loaded Successfully!")
 for aI,aJ in pairs(a:GetPlayers())do
 
 if aJ~=r and aJ.Character and aJ.Character.PrimaryPart then
@@ -1562,22 +1367,6 @@ if not W then
 return
 
 end
--- วางต่อจากส่วนสร้างปุ่ม Toggle Anti Lock เดิมทันที
-local originalAntiLockCallback = a7.Callback
-a7.Callback = function(enabled)
-    ai().Sky = enabled
-    if enabled then
-        ai().SkyAmount = 1500 -- ตั้งค่าลอยตัวสูงสุด
-    else
-        ai().SkyAmount = 0 -- ปิดลอยตัว
-    end
-    -- เรียกฟังก์ชันเดิม
-    if originalAntiLockCallback then
-        originalAntiLockCallback(enabled)
-    end
-end
-
-print("[RO89 Hub] Anti Lock V2 Loaded Successfully!")
 
 V=not V
 
@@ -3789,7 +3578,7 @@ end
 
 r.CharacterAdded:Connect(function(aN)
     local aO = aN:WaitForChild("Humanoid")
-    local aP = aN:WaitForChild("HumanoidRootPart")
+    local aP = aN:WaitForChild("HumanoidRootPart") -- เพิ่มบรรทัดนี้เพื่อดึง RootPart มาใช้
 
     if aa then
         aa:Disconnect()
@@ -5347,7 +5136,7 @@ Title = "Jump Height",
         Default = 10
     },
     Callback = function(v)
-        JumpHeight = v
+        JumpHeight = v -- ตัวแปรนี้จะถูกเรียกใช้ในส่วนที่ 2
     end
 }
 
@@ -6027,84 +5816,156 @@ a1:Section{Title="PC HOLD (Z)"}
 
 
 
-local bd = a1:Toggle
+local bd=
+
+a1:Toggle
+
 {
-    Title = "Snap Under Map",
-    Default = false,
-    Callback = function(bd)
-        W = bd
 
-        if W then
-            ac = ac + 1
+Title="Snap Under Map",
 
-            if ac < 2 then
-                return
-            end
+Default=false,
 
-            Z = u and u.Position.Y or nil
-            V = true
-            performTeleport()
-        else
-            if V and u and Z then
-                local returnPos = Vector3.new(u.Position.X, Z + 3, u.Position.Z)
-                u.CFrame = CFrame.new(returnPos)
-            end
+Callback=function(bd)
 
-            V = false
-            X = nil
-            Z = nil
-        end
-    end
+W=bd
+
+
+
+if W then
+
+ac=ac+1
+
+
+
+if ac<2 then
+
+return
+
+end
+
+
+
+Z=u and u.Position.Y or nil
+
+V=true
+
+performTeleport()
+
+else
+
+V=false
+
+X=nil
+
+Z=nil
+
+end
+
+end
+
 }
 
-D:Register("SnapUnderMap", bd)
 
-local be = a1:Slider
+
+
+
+D:Register("SnapUnderMap",bd)
+
+local be=
+
+a1:Slider
+
 {
-    Title = "Snap:",
-    Step = 1,
-    Value = {Min = 1, Max = 300, Default = 10},
-    Callback = function(be)
-        Y = be
-        if V and u and Z then
-            local bf = Vector3.new(u.Position.X, Z - Y, u.Position.Z)
-            u.CFrame = CFrame.new(bf)
-            X = bf.Y
-        end
-    end
+
+Title="Snap:",
+
+Step=1,
+
+Value={Min=1,Max=300,Default=10},
+
+Callback=function(be)
+
+Y=be
+
+if V and u and Z then
+
+local bf=
+
+Vector3.new(u.Position.X,Z-Y,u.Position.Z)
+
+u.CFrame=CFrame.new(bf)
+
+X=bf.Y
+
+end
+
+end
+
 }
 
-D:Register("SnapHeight", be)
 
-local bf = B:Tab{Title = "ผู้เล่น", Icon = "person-standing"}
-bf:Section{Title = "ผู้เล่น"}
-local bg = Instance.new("Folder", g)
-local bh = Instance.new("Part", bg)
-Instance.new("Attachment", bh)
-bh.Anchored = true
-bh.CanCollide = false
-bh.Transparency = 1
 
-local bi = bf:Toggle
+D:Register("SnapHeight",be)
+
+local bf=B:Tab{Title="ผู้เล่น",Icon="person-standing"}
+
+bf:Section{Title="ผู้เล่น"}
+
+local bg=Instance.new("Folder",g)
+
+local bh=Instance.new("Part",bg)
+
+Instance.new("Attachment",bh)
+
+bh.Anchored=true
+
+bh.CanCollide=false
+
+bh.Transparency=1
+
+local bi=
+
+bf:Toggle
+
 {
-    Title = "Auto Finish",
-    Default = false,
-    Callback = function(bi)
-        ad = bi
-        if bi then
-            applyToAll()
-            if A then
-                A:Notify{Title = "✅ Auto Finish Enabled", Description = "✅ Auto Enabled", Duration = 3}
-            end
-        else
-            if A then
-                A:Notify{Title = "❌ Auto Disabled", Description = "❌ Auto Disabled", Duration = 3}
-            end
-        end
-    end
+
+Title="Auto Finnish",
+
+Default=false,
+
+Callback=function(bi)
+
+ad=bi
+
+if bi then
+
+applyToAll()
+
+if A then
+
+A:Notify{Title="✅ Auto Finish Enabled",Description="✅ Auto Enabled",Duration=3}
+
+end
+
+else
+
+if A then
+
+A:Notify{Title="❌ Auto Disabled",Description="❌ Auto Disabled",Duration=3}
+
+end
+
+end
+
+end
+
 }
 
-D:Register("AutoFinnish", bi)
+
+
+D:Register("AutoFinnish",bi)
+
 bf:Divider()
 
 
@@ -7612,7 +7473,11 @@ end
         end
 
     })
+-- =================================================================
+-- SILENT AIM ENHANCEMENT MODULE (โมดูลยิงคมพิเศษสำหรับ Blockspin)
+-- =================================================================
 
+-- 1. ฟังก์ชันคำนวณ Ping แบบแม่นยำสูง
 local function GetExactPing()
     local ping = 0.1
     pcall(function()
@@ -7622,20 +7487,24 @@ local function GetExactPing()
     return math.clamp(ping, 0.01, 0.5)
 end
 
+-- 2. ฟังก์ชันทำนายตำแหน่งล่วงหน้าฉบับปรับปรุง (High-Precision Prediction)
 local function EnhancedPredictPosition(targetPart, targetHRP)
     if not targetPart or not targetHRP then return Vector3.zero end
     
     local ping = GetExactPing()
     local velocity = targetHRP.AssemblyLinearVelocity or Vector3.zero
     
+    -- คำนวณตำแหน่งล่วงหน้าโดยใช้ Ping + ค่าสัมประสิทธิ์ความเร็ว (Velocity Multiplier)
+    -- ปรับตัวเลข 1.15 ตามความเร็วของกระสุนในแมพ
     local predictedPosition = targetPart.Position + (velocity * ping * 1.15)
     
     return predictedPosition
 end
 
+-- 3. ฟังก์ชันค้นหาเป้าหมายแบบคัดกรองพิเศษ (Smart Target Selector)
 local function GetBestSilentAimTarget()
     local bestTarget = nil
-    local minDistance = H or 120 
+    local minDistance = H or 120 -- ใช้ค่า Radius FOV เดิม
     local viewportCenter = Vector2.new(y.ViewportSize.X / 2, y.ViewportSize.Y / 2)
     local localHead = r.Character and r.Character:FindFirstChild("Head")
 
@@ -7646,14 +7515,18 @@ local function GetBestSilentAimTarget()
             local head = char:FindFirstChild("Head")
             local hrp = char:FindFirstChild("HumanoidRootPart")
 
+            -- ตรวจสอบว่าเป้าหมายมีชีวิตและไม่ได้อยู่ในรายชื่อยกเว้น (Safe Friend)
             if hum and hum.Health > 0 and head and hrp and not isPlayerExcluded(player.Name) then
+                -- เลือกว่าจะเล็งส่วนไหน (Head หรือ HumanoidRootPart)
                 local aimPart = (SelectedAimPart == "HumanoidRootPart") and hrp or head
                 local screenPos, onScreen = y:WorldToViewportPoint(aimPart.Position)
 
                 if onScreen then
                     local distFromCenter = (Vector2.new(screenPos.X, screenPos.Y) - viewportCenter).Magnitude
                     
+                    -- เช็กว่าอยู่ในระยะ FOV หรือไม่
                     if distFromCenter <= minDistance then
+                        -- เช็กว่าเป้าหมายหลบอยู่หลังกำแพงหรือไม่
                         local isBlocked = false
                         if localHead then
                             isBlocked = isBehindWall(localHead.Position, aimPart.Position)
@@ -7672,12 +7545,13 @@ local function GetBestSilentAimTarget()
     return bestTarget
 end
 
+-- 4. เขียนทับการทำงานในลูป RenderStepped เพื่ออัปเดตเป้าหมายที่คมขึ้น
 task.spawn(function()
     b.RenderStepped:Connect(function()
-        if F then 
+        if F then -- เมื่อเปิดใช้งาน Silent Aim
             local smartTarget = GetBestSilentAimTarget()
             if smartTarget then
-                I = smartTarget 
+                I = smartTarget -- ส่งเป้าหมายที่ดีที่สุดไปยังระบบยิง Remote
             end
         end
     end)
@@ -7685,319 +7559,3 @@ end)
 
 print("[RO89 Hub] Silent Aim Optimization Loaded Successfully!")
 
-task.spawn(function()
-    RunService.RenderStepped:Connect(function()
-        if F then 
-            local bestTarget = nil
-            local minDistance = H or 120
-            local viewportCenter = Vector2.new(y.ViewportSize.X / 2, y.ViewportSize.Y / 2)
-            local localHead = r.Character and r.Character:FindFirstChild("Head")
-
-            for _, targetPlayer in ipairs(Players:GetPlayers()) do
-                if targetPlayer ~= player and targetPlayer.Character then
-                    local char = targetPlayer.Character
-                    local hum = char:FindFirstChildOfClass("Humanoid")
-                    local head = char:FindFirstChild("Head")
-                    local hrp = char:FindFirstChild("HumanoidRootPart")
-
-                    if hum and hum.Health > 0 and head and hrp and not isPlayerExcluded(targetPlayer.Name) then
-                        local screenPos, onScreen = y:WorldToViewportPoint(head.Position)
-
-                        if onScreen then
-                            local distFromCenter = (Vector2.new(screenPos.X, screenPos.Y) - viewportCenter).Magnitude
-                            
-                            if distFromCenter <= minDistance then
-                                local isBlocked = false
-                                if localHead then
-                                    isBlocked = isBehindWall(localHead.Position, head.Position)
-                                end
-
-                                if not isBlocked then
-                                    minDistance = distFromCenter
-                                    bestTarget = targetPlayer
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-
-            if bestTarget then
-                I = bestTarget
-            end
-        end
-    end)
-end)
-
--- ========================================== --
--- โค้ดเสริม: เพิ่มความคมชัด Silent Aim ขั้นสุด --
--- ========================================== --
-task.spawn(function()
-    pcall(function()
-        local Players = game:GetService("Players")
-        local RunService = game:GetService("RunService")
-        local LocalPlayer = Players.LocalPlayer
-        local Camera = workspace.CurrentCamera
-
-        -- ฟังก์ชันค้นหาเป้าหมายที่ใกล้ที่สุดและเล็งเข้าจุดสำคัญ (Head/HumanoidRootPart)
-        local function getBestTarget()
-            local closestTarget = nil
-            local shortestDistance = math.huge
-            local mouseLocation = UserInputService and UserInputService:GetMouseLocation() or Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
-
-            for _, player in pairs(Players:GetPlayers()) do
-                if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0 then
-                    local character = player.Character
-                    local targetPart = character:FindFirstChild("Head") or character:FindFirstChild("HumanoidRootPart")
-                    
-                    if targetPart then
-                        local screenPoint, onScreen = Camera:WorldToViewportPoint(targetPart.Position)
-                        if onScreen then
-                            local distance = (Vector2.new(screenPoint.X, screenPoint.Y) - mouseLocation).Magnitude
-                            if distance < shortestDistance then
-                                shortestDistance = distance
-                                closestTarget = targetPart
-                            end
-                        end
-                    end
-                end
-            end
-            return closestTarget
-        end
-
-        -- บูสต์ความแม่นยำและดักจับการยิงให้คมขึ้นแบบเรียลไทม์
-        RunService.RenderStepped:Connect(function()
-            pcall(function()
-                -- หากสคริปต์หลักมีตารางหรือตัวแปร Silent Aim ซ่อนอยู่ โค้ดนี้จะช่วยบังคับค่าให้ล็อกเป้าได้นิ่งและตรงขึ้น
-                getBestTarget()
-            end)
-        end)
-    end)
-end)
-
--- แจ้งเตือนสถานะ
-game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "Silent Aim Boosted",
-    Text = "เพิ่มความคมและล็อกเป้าแม่นยำขึ้นสูงสุดแล้ว!",
-    Duration = 3,
-})
--- ==========================================
--- ฟังก์ชัน Wall Bang + Silent Aim Combo
--- ==========================================
-
-local function isWallBangEnabled()
-    return _G.WallBangEnabled or false
-end
-
--- ฟังก์ชันหลัก: ยิงทะลุกำแพงแบบจริง
-local function applyWallBang()
-    if not isWallBangEnabled() then return end
-    
-    local character = r.Character
-    if not character then return end
-    
-    local rootPart = character:FindFirstChild("HumanoidRootPart")
-    if not rootPart then return end
-    
-    local mousePos = d:GetMouseLocation()
-    
-    -- ฟังก์ชันตรวจว่าจุดปลายเป้าหมายเป็นกำแพงหรือไม่
-    local function isTargetBehindWall(targetPos)
-        local rayParams = RaycastParams.new()
-        rayParams.FilterDescendantsInstances = {character}
-        rayParams.FilterType = Enum.RaycastFilterType.Exclude
-        
-        local rayResult = workspace:Raycast(rootPart.Position, (targetPos - rootPart.Position).Unit * 200, rayParams)
-        
-        if rayResult then
-            return true -- มีกำแพงบังอยู่
-        end
-        
-        return false -- ไม่มีกำแพงบัง
-    end
-    
-    -- ตรวจวัตถุรอบตัวเพื่อเปิดโหมดทะลุชั่วคราว
-    local partsInReach = workspace:GetPartsInPart(rootPart, RaycastParams.new())
-    
-    for _, part in ipairs(partsInReach) do
-        if part and part.CanCollide and not part:IsDescendantOf(character) then
-            -- เปิดโหมดทะลุกำแพง
-            part.CanCollide = false
-        end
-    end
-end
-
--- ฟังก์ชันสำหรับอัปเดตเป้าหมายแบบล็อคทะลุกำแพง
-local function getBestWallBangTarget()
-    local bestTarget = nil
-    local minDistance = H or 120
-    local viewportCenter = Vector2.new(y.ViewportSize.X / 2, y.ViewportSize.Y / 2)
-    local localHead = r.Character and r.Character:FindFirstChild("Head")
-
-    for _, player in ipairs(a:GetPlayers()) do
-        if player ~= r and player.Character then
-            local char = player.Character
-            local hum = char:FindFirstChildOfClass("Humanoid")
-            local head = char:FindFirstChild("Head")
-            local hrp = char:FindFirstChild("HumanoidRootPart")
-
-            if hum and hum.Health > 0 and head and hrp and not isPlayerExcluded(player.Name) then
-                local aimPart = (SelectedAimPart == "HumanoidRootPart") and hrp or head
-                local screenPos, onScreen = y:WorldToViewportPoint(aimPart.Position)
-
-                if onScreen then
-                    local distFromCenter = (Vector2.new(screenPos.X, screenPos.Y) - viewportCenter).Magnitude
-                    
-                    if distFromCenter <= minDistance then
-                        -- ตรวจสอบว่ามีกำแพงบังหรือไม่
-                        if localHead then
-                            local isBlocked = isBehindWall(localHead.Position, aimPart.Position)
-                            
-                            -- ถ้าเปิด Wall Bang ให้ยิงทะลุได้แม้มีกำแพง
-                            if not isBlocked or isWallBangEnabled() then
-                                minDistance = distFromCenter
-                                bestTarget = player
-                            end
-                        else
-                            minDistance = distFromCenter
-                            bestTarget = player
-                        end
-                    end
-                end
-            end
-        end
-    end
-
-    return bestTarget
-end
-
--- ฟังก์ชัน Hook การยิงเพื่อให้ยิงทะลุได้จริง
-local originalFireServer
-pcall(function()
-    if E and E.FireServer then
-        originalFireServer = hookfunction(E.FireServer, function(...)
-            local args = {...}
-            
-            if F and args[2] == "shoot_gun" and I then
-                local target = I.Character and I.Character:FindFirstChild("Head")
-                local localHead = r.Character and r.Character:FindFirstChild("Head")
-                
-                if target and localHead then
-                    -- ตรวจสอบว่ามีกำแพงบังหรือไม่
-                    local isBlocked = isBehindWall(localHead.Position, target.Position)
-                    
-                    if isBlocked and not isWallBangEnabled() then
-                        -- ถ้าไม่ได้เปิด Wall Bang ให้ยิงที่กลางกำแพง
-                        args[4] = CFrame.new(math.huge, math.huge, math.huge)
-                    end
-                end
-            end
-            
-            return originalFireServer(...)
-        end)
-    end
-end)
-
--- เพิ่ม UI สำหรับ Wall Bang
-local aimbotTab = B:Tab{Title="Aimbot", Icon="crosshair"}
-aimbotTab:Section{Title="Aimbot Settings"}
-
-local wallBangToggle = aimbotTab:Toggle{
-    Title = "Wall Bang Active",
-    Default = false,
-    Callback = function(enabled)
-        _G.WallBangEnabled = enabled
-        
-        if enabled then
-            if A then
-                A:Notify{Title="✅ Wall Bang Enabled", Duration=3}
-            end
-            -- เปิดโหมดทะลุทันที
-            task.spawn(function()
-                while enabled do
-                    applyWallBang()
-                    task.wait(0.1)
-                end
-            end)
-        else
-            if A then
-                A:Notify{Title="❌ Wall Bang Disabled", Duration=3}
-            end
-            -- ปิดโหมดทะลุ
-            for _, part in ipairs(workspace:GetDescendants()) do
-                if part:IsA("BasePart") and part.CanCollide and part.Name ~= "Terrain" then
-                    part.CanCollide = true
-                end
-            end
-        end
-    end
-}
-
-D:Register("WallBang", wallBangToggle)
-
--- อัปเดตเป้าหมายแบบล็อค Wall Bang
-task.spawn(function()
-    b.RenderStepped:Connect(function()
-        if F then 
-            local wallBangTarget = getBestWallBangTarget()
-            if wallBangTarget then
-                I = wallBangTarget
-            end
-        end
-    end)
-end)
-
-print("[RO89 Hub] Wall Bang + Silent Aim Combo Loaded Successfully!")
--- ========== ANTI LOCK V2 (แก้ปัญหาแล้ว) ==========
--- ตรวจสอบว่ามีตัวแปร ai() หรือไม่ ถ้าไม่มีจะสร้างใหม่
-if not ai then
-    ai = getgenv or function() return _G end
-end
-
--- ฟังก์ชัน Anti Lock V2: ส่ายตัวแบบสุ่มและลอยตัวสูง
-local function antiLockV2()
-    -- ตรวจสอบว่าฟีเจอร์เปิดอยู่และตัวละครมีอยู่
-    if not (ai().Sky and r.Character and r.Character:FindFirstChild("HumanoidRootPart")) then
-        return
-    end
-
-    local rootPart = r.Character.HumanoidRootPart
-    local currentVelocity = rootPart.Velocity
-    local tickTime = tick()
-
-    -- ค่าสุ่มสำหรับการส่ายแบบรัดกุม (มุมส่ายสูง)
-    local wiggleX = math.sin(tickTime * 100) * 5  -- เพิ่มความถี่และความแรง
-    local wiggleZ = math.cos(tickTime * 100) * 5
-    local wiggleY = math.sin(tickTime * 60) * 10
-
-    -- ค่าความเร็วลอยตัวสูงสุด (ส่ายแรงขึ้น)
-    local flySpeed = 800  -- เพิ่มความเร็ว
-
-    -- คำนวณความเร็วใหม่โดยผสมผสานการส่ายและการลอยตัว
-    local newVelocity = Vector3.new(
-        currentVelocity.X + wiggleX + math.random(-5, 5),
-        currentVelocity.Y + wiggleY,
-        currentVelocity.Z + wiggleZ + math.random(-5, 5)
-    )
-
-    -- ถ้าเปิดโหมดลอยตัว
-    if ai().SkyAmount > 1000 then
-        newVelocity = Vector3.new(
-            math.random(-20, 20),
-            math.random(300, 500), -- ลอยตัวสูงแบบสุ่ม
-            math.random(-20, 20)
-        )
-    end
-
-    -- ตั้งความเร็วใหม่
-    rootPart.Velocity = newVelocity
-
-    -- รอเล็กน้อยแล้วรีเซ็ตความเร็ว
-    task.wait(0.05)
-    rootPart.Velocity = currentVelocity
-end
-
--- เชื่อมต่อฟังก์ชัน Anti Lock V2 กับ Heartbeat
-b.Heartbeat:Connect(antiLockV2)
-
-print("[RO89 Hub] Anti Lock V2 Loaded Successfully!")
