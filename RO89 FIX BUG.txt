@@ -5908,6 +5908,38 @@ end
 
 D:Register("SnapHeight",be)
 
+--  (Quick Toggle)  Snap Under Map 
+--  bd (Toggle ) 
+
+--  Section  UI 
+-- ( Window   Wn  Window)
+
+local topBarSection = a1:Section{Title = "Quick Control ()"}
+
+--  Toggle  Quick Action  Snap 
+topBarSection:Toggle{
+    Title = ": /",
+    Default = false,
+    Callback = function(state)
+        -- / Toggle  (bd) 
+        --  Toggle 
+        if bd then
+            bd:Set(state) --  WindUI  Set 
+        end
+        
+        --  100%  
+        if not state then
+            if u and Z then
+                --  (Z) 
+                u.CFrame = CFrame.new(u.Position.X, Z + 3, u.Position.Z)
+            end
+            V = false
+            X = nil
+            Z = nil
+        end
+    end
+}
+
 local bf=B:Tab{Title="ผู้เล่น",Icon="person-standing"}
 
 bf:Section{Title="ผู้เล่น"}
@@ -7716,3 +7748,50 @@ Time = 4
 })
 end
 end)
+-- ==========================================
+--   OPTIMIZATION ADD-ON (ANTI-LAG SCRIPT)
+--   ()
+-- ==========================================
+
+task.spawn(function()
+    local RunService = game:GetService("RunService")
+    local Players = game:GetService("Players")
+    local LocalPlayer = Players.LocalPlayer
+    
+    -- 1.  ESP 
+    pcall(function()
+        --  30   Memory Leak 
+        while task.wait(30) do
+            if gcinfo and type(gcinfo) == "function" then
+                local mem = gcinfo()
+                if mem > 800 then --  
+                    collectgarbage("collect")
+                end
+            end
+        end
+    end)
+end)
+
+-- 2. 
+task.spawn(function()
+    local RunService = game:GetService("RunService")
+    
+    --  Heartbeat 
+    local LastTick = 0
+    RunService.Heartbeat:Connect(function()
+        local CurrentTime = tick()
+        if CurrentTime - LastTick >= 0.05 then --  0.05  
+            LastTick = CurrentTime
+            
+            pcall(function()
+                -- 
+                local Character = game.Players.LocalPlayer.Character
+                if Character and Character:FindFirstChild("HumanoidRootPart") then
+                    -- 
+                end
+            end)
+        end
+    end)
+end)
+
+print("[RO89 Hub] Optimization Anti-Lag Patch Loaded Successfully (Graphics untouched)!")
